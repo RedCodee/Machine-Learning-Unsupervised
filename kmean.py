@@ -20,7 +20,7 @@ from sklearn.metrics import silhouette_score
 # Note : chaque exemple du jeu de donnees contient aussi un
 # numero de cluster . On retire cette information
 path = '/home/kharoubi/tp_un/Machine-Learning-Unsupervised/clustering-benchmark-master/src/main/resources/datasets/artificial/'
-databrut = arff.loadarff ( open ( path + "xclara.arff" , 'r') ) #xtarget
+databrut = arff.loadarff ( open ( path + "D31.arff" , 'r') ) #xtarget
 datanp = [ [ x [ 0 ] ,x [ 1 ] ] for x in databrut [ 0 ] ]
 # Affichage en 2D
 # Extraire chaque valeur de features pour en faire une liste
@@ -35,8 +35,8 @@ print ( " Appel KMeans pour une valeur fixee de k " )
 
 
 # **********Graph après clustering Kmeans
+k = 31
 tps1 = time.time ()
-k = 3
 model = cluster.KMeans (n_clusters = k, init ='k-means++', n_init=10)
 model . fit ( datanp )
 tps2 = time . time ()

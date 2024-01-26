@@ -1,10 +1,9 @@
-import numpy as np
 import matplotlib . pyplot as plt
 from scipy . io import arff
 import time
 from sklearn.cluster import KMeans
 from sklearn import cluster
-from sklearn.metrics import silhouette_samples, silhouette_score
+from sklearn.metrics import silhouette_score
 
 
 # Parser un fichier de donnees au format arff
@@ -21,7 +20,7 @@ from sklearn.metrics import silhouette_samples, silhouette_score
 # Note : chaque exemple du jeu de donnees contient aussi un
 # numero de cluster . On retire cette information
 path = '/home/kharoubi/tp_un/Machine-Learning-Unsupervised/clustering-benchmark-master/src/main/resources/datasets/artificial/'
-databrut = arff.loadarff ( open ( path + "target.arff" , 'r') )
+databrut = arff.loadarff ( open ( path + "xclara.arff" , 'r') ) #xtarget
 datanp = [ [ x [ 0 ] ,x [ 1 ] ] for x in databrut [ 0 ] ]
 # Affichage en 2D
 # Extraire chaque valeur de features pour en faire une liste
@@ -37,8 +36,8 @@ print ( " Appel KMeans pour une valeur fixee de k " )
 
 # **********Graph après clustering Kmeans
 tps1 = time.time ()
-k = 2
-model = cluster.KMeans ( n_clusters =k , init ='k-means++')
+k = 3
+model = cluster.KMeans (n_clusters = k, init ='k-means++', n_init=10)
 model . fit ( datanp )
 tps2 = time . time ()
 labels = model . labels_
@@ -55,17 +54,18 @@ print ( " nb clusters = " ,k , " , nb iter = " , iteration , " , runtime = " , r
 silhouette_scores = []
 
 # Boucle sur différentes valeurs de k de 2 à 20
-for k in range(2, 22):
-    model = KMeans(n_clusters=k, init='k-means++')
+for k in range(2, 6):
+    model = KMeans(n_clusters=k, init='k-means++', n_init=10)
     labels = model.fit_predict(datanp)
     silhouette_avg = silhouette_score(datanp, labels)
     silhouette_scores.append(silhouette_avg)
   #  print(f"Pour k={k}, le coefficient de silhouette moyen est : {silhouette_avg}")
 
 # Tracer le graphique des scores de silhouette en fonction de k
-plt.plot(range(2, 22), silhouette_scores, marker='o')
+plt.plot(range(2, 6), silhouette_scores, marker='o')
 plt.xlabel('Nombre de clusters (k)')
 plt.ylabel('Coefficient de silhouette moyen')
 plt.title('Évolution du coefficient de silhouette en fonction de k')
 plt.show()
+
 

@@ -19,6 +19,7 @@ from sklearn.metrics import silhouette_samples, silhouette_score
 # Note : chaque exemple du jeu de donnees contient aussi un
 # numero de cluster . On retire cette information
 path = '/home/kharoubi/tp_un/Machine-Learning-Unsupervised/clustering-benchmark-master/src/main/resources/datasets/artificial/'
+#path = '/home/kharoubi/tp_un/'
 databrut = arff.loadarff ( open ( path + "xclara.arff" , 'r') )
 datanp = [ [ x [ 0 ] ,x [ 1 ] ] for x in databrut [ 0 ] ]
 # Affichage en 2D

@@ -1,10 +1,9 @@
 import scipy . cluster . hierarchy as shc
-import numpy as np
 import matplotlib . pyplot as plt
 from scipy . io import arff
 import time
 from sklearn import cluster
-from sklearn.metrics import silhouette_samples, silhouette_score
+
 
 # Parser un fichier de donnees au format arff
 # data est un tableau d ’ exemples avec pour chacun
@@ -20,12 +19,10 @@ from sklearn.metrics import silhouette_samples, silhouette_score
 # Note : chaque exemple du jeu de donnees contient aussi un
 # numero de cluster . On retire cette information
 path = '/home/kharoubi/tp_un/Machine-Learning-Unsupervised/clustering-benchmark-master/src/main/resources/datasets/artificial/'
-databrut = arff.loadarff ( open ( path + "target.arff" , 'r') )
+databrut = arff.loadarff ( open ( path + "3MC.arff" , 'r') )
 datanp = [ [ x [ 0 ] ,x [ 1 ] ] for x in databrut [ 0 ] ]
 # Affichage en 2D
 # Extraire chaque valeur de features pour en faire une liste
-# Ex pour f0 = [ - 0 . 499261 , -1 . 51369 , -1 . 60321 , ...]
-# Ex pour f1 = [ - 0 . 0612356 , 0 . 265446 , 0 . 362039 , ...]
 f0 = [x[0] for x in datanp] # tous les elements de la premiere colonne
 f1 = [x[1] for x in datanp] # tous les elements de la deuxieme colonne
 plt . scatter ( f0 , f1 , s = 8 )
@@ -35,6 +32,7 @@ print ( " Appel KMeans pour une valeur fixee de k " )
 
 # Donnees dans datanp
 print ("Dendrogramme 'single' donnees initiales")
+tps1 = time . time ()
 linked_mat = shc . linkage ( datanp , 'single')
 plt . figure ( figsize = ( 12 , 12 ) )
 shc . dendrogram ( linked_mat ,
@@ -48,18 +46,17 @@ plt . show ()
 
 # METHODE 1
 #A EXPLIQUER CA CHANGE AVEC LA distance_threshold PPPQQQQQ
-# set distance_threshold ( 0 ensures we compute the full tree )
-#tps1 = time . time ()
-#model = cluster . AgglomerativeClustering ( distance_threshold = 1 ,linkage = 'single' , n_clusters = None )
-#model = model . fit ( datanp )
-#tps2 = time . time ()
+#set distance_threshold ( 0 ensures we compute the full tree )
 
-# METHODE 2
-k = 6
-tps1 = time . time ()
-model = cluster . AgglomerativeClustering ( linkage = 'single' , n_clusters = k )
+model = cluster . AgglomerativeClustering ( distance_threshold = 1 ,linkage = 'single' , n_clusters = None )
 model = model . fit ( datanp )
 tps2 = time . time ()
+
+# METHODE 2
+#k = 3
+#model = cluster . AgglomerativeClustering ( linkage = 'average' , n_clusters = k )
+#model = model . fit ( datanp )
+#tps2 = time . time ()
 
 
 
